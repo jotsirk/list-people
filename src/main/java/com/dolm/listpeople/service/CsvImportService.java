@@ -5,6 +5,8 @@ import jakarta.annotation.PostConstruct;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVParser;
 import org.apache.commons.csv.CSVRecord;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.ApplicationContext;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
@@ -15,11 +17,22 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static ch.qos.logback.core.CoreConstants.DOUBLE_QUOTE_CHAR;
+
 @Service
 public class CsvImportService {
 
-  private final ApplicationContext appContext;
+  private static final Character COMMA_DELIMITER = ',';
+  private static final CSVFormat CSV_FORMAT = CSVFormat.Builder.create()
+    .setDelimiter(COMMA_DELIMITER)
+    .setQuote(DOUBLE_QUOTE_CHAR)
+    .setIgnoreEmptyLines(true)
+    .setAllowDuplicateHeaderNames(true)
+    .setSkipHeaderRecord(true)
+    .build();
+  private static final Logger log = LoggerFactory.getLogger(CsvImportService.class);
 
+  private final ApplicationContext appContext;
   private final PersonService personService;
 
   // TODO add logger
@@ -37,29 +50,25 @@ public class CsvImportService {
     try {
       Resource[] resources = appContext.getResources("classpath:import_data/*.*");
       for (Resource resource : resources) {
-        this.loadData(resource).forEach(record -> {
-          // TODO skip the first line
-          personsImportList.add(new Person(record.get(0), record.get(1)));
-        });
+        List<Person> persons = loadData(resource).stream()
+          .map(record -> new Person(record.get(0), record.get(1)))
+          .toList();
+        personsImportList.addAll(persons);
       }
     } catch (IOException e) {
-      e.printStackTrace();
+      log.error("Error loading CSV data", e);
     }
 
     personService.save(personsImportList);
   }
 
-  private List<CSVRecord> loadData(Resource resource) {
-    List<CSVRecord> csvData;
-    try (InputStream inputStream = resource.getInputStream()) {
+  private List<CSVRecord> loadData(Resource resource) throws IOException {
+    try (
+      InputStream inputStream = resource.getInputStream();
       InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
-      CSVParser csvParser = new CSVParser(inputStreamReader, CSVFormat.DEFAULT);
-      csvData = csvParser.getRecords();
-    } catch (IOException e) {
-      // TODO implement proper exception
-      throw new RuntimeException(e);
+      CSVParser csvParser = new CSVParser(inputStreamReader, CSV_FORMAT)
+    ) {
+      return csvParser.getRecords();
     }
-
-    return csvData;
   }
 }
