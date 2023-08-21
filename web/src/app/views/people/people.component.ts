@@ -1,9 +1,8 @@
 import {AfterViewInit, Component, OnInit, ViewChild} from '@angular/core';
 import {PersonService} from "../../services/person.service";
-import {Person} from "../../models/person.model";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
-import {first} from "rxjs";
+import {debounceTime, first, Subject, tap} from "rxjs";
 
 @Component({
     selector: 'people-list',
@@ -11,38 +10,60 @@ import {first} from "rxjs";
     styleUrls: ['./people.component.scss']
 })
 export class PeopleComponent implements OnInit, AfterViewInit {
-    displayedColumns = ['name', 'photoUrl'];
-    dataSource: MatTableDataSource<Person>;
 
     @ViewChild(MatPaginator) paginator!: MatPaginator;
 
-    people: Person[] = [];
+    displayedColumns = ['name', 'imageUrl'];
+    dataSource: MatTableDataSource<any>;
+    totalElements = 0;
+    currentPage = 0;
+    defaultPageSize = 10;
+    nameFilterValue = '';
+
+    private keyUp = new Subject<string>();
+    private debounceTime = 500;
 
     constructor(private personService: PersonService) {
-        this.dataSource = new MatTableDataSource(this.people);
+        this.dataSource = new MatTableDataSource<any>([]);
+        this.keyUp.pipe(
+            debounceTime(this.debounceTime)
+        ).subscribe(() => {
+            this.applyFilter();
+        });
     }
 
     ngOnInit(): void {
-        this.loadData();
+        this.loadData(this.nameFilterValue, this.currentPage, this.defaultPageSize);
     }
 
     ngAfterViewInit() {
-        this.dataSource.paginator = this.paginator;
-        this.dataSource = new MatTableDataSource(this.people);
+        this.paginator.page
+            .pipe(
+                tap(() => this.loadData(this.nameFilterValue, this.paginator.pageIndex, this.paginator.pageSize))
+            )
+            .subscribe();
     }
 
-    applyFilter(filterValue: string) {
-        filterValue = filterValue.trim(); // Remove whitespace
-        filterValue = filterValue.toLowerCase(); // Datasource defaults to lowercase matches
-        this.dataSource.filter = filterValue;
+    applyFilter() {
+        // Your filter logic here
+        console.log("Filtering with:", this.nameFilterValue);
+        this.loadData(this.nameFilterValue, 0, this.defaultPageSize);
     }
 
-    private loadData() {
-        this.personService.getPeople()
+    nextPage(event: any) {
+        this.currentPage = event.pageIndex;
+    }
+
+    onKeyUp() {
+        this.keyUp.next(this.nameFilterValue);
+    }
+
+    private loadData(nameFilter: string, page: number, size: number) {
+        this.personService.getPeople(nameFilter, page, size)
             .pipe(first())
-            .subscribe((people) => {
-                console.log(people.content);
-                this.people = people
+            .subscribe((data) => {
+                this.dataSource.data = data.content;
+                this.totalElements = data.totalElements;
             });
     }
 }

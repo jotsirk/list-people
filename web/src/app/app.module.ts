@@ -8,6 +8,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {HttpClientModule} from "@angular/common/http";
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
     declarations: [
@@ -21,7 +22,8 @@ import {HttpClientModule} from "@angular/common/http";
         MatInputModule,
         MatTableModule,
         MatPaginatorModule,
-        HttpClientModule
+        HttpClientModule,
+        FormsModule
     ],
     providers: [],
     bootstrap: [AppComponent]
