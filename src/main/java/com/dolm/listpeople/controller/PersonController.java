@@ -1,12 +1,12 @@
 package com.dolm.listpeople.controller;
 
 import com.dolm.listpeople.model.Person;
-import com.dolm.listpeople.model.dto.FetchPersonsDTO;
 import com.dolm.listpeople.model.dto.PersonDTO;
 import com.dolm.listpeople.service.PersonService;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -22,9 +22,10 @@ public class PersonController {
     this.personService = personService;
   }
 
+  @CrossOrigin(origins = "http://localhost:4200")
   @GetMapping("")
   public ResponseEntity<Page<PersonDTO>> getPersons(
-    @RequestParam(required = false) String name,
+    @RequestParam(required = false, defaultValue = "") String name,
     Pageable pageable
   ) {
     Page<PersonDTO> persons = personService.findAll(name, pageable)
