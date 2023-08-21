@@ -16,8 +16,8 @@ public class PersonService {
     this.personRepository = personRepository;
   }
 
-  public List<Person> save(List<Person> persons) {
-    return personRepository.saveAll(persons);
+  public void save(List<Person> persons) {
+    personRepository.saveAll(persons);
   }
 
   public Page<Person> findAll(String name, Pageable pageable) {

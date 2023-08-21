@@ -38,6 +38,7 @@ public class CsvImportService {
       Resource[] resources = appContext.getResources("classpath:import_data/*.*");
       for (Resource resource : resources) {
         this.loadData(resource).forEach(record -> {
+          // TODO skip the first line
           personsImportList.add(new Person(record.get(0), record.get(1)));
         });
       }
@@ -45,8 +46,7 @@ public class CsvImportService {
       e.printStackTrace();
     }
 
-    List<Person> persons = personService.save(personsImportList);
-    System.out.println(persons);
+    personService.save(personsImportList);
   }
 
   private List<CSVRecord> loadData(Resource resource) {
