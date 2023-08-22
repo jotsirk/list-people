@@ -13,10 +13,10 @@ services:
       context: ../../web/
       dockerfile: Dockerfile
     ports:
-      - "8081:80"
+      - "4200:80"
     depends_on:
       - springboot-backend
 
 networks:
   default:
-    name: local-list-env
+    name: local-env-list

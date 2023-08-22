@@ -58,6 +58,14 @@
               ],
               "outputHashing": "all"
             },
+            "docker": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/environment.ts",
+                  "with": "src/environments/environment.docker.ts"
+                }
+              ]
+            },
             "development": {
               "buildOptimizer": false,
               "optimization": false,
@@ -77,6 +85,9 @@
             },
             "development": {
               "browserTarget": "web:build:development"
+            },
+            "docker": {
+              "browserTarget": "web:build:docker"
             }
           },
           "defaultConfiguration": "development"
