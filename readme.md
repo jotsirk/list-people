@@ -7,10 +7,11 @@
 - Node.js and npm (for manual UI deployment)
 
 ### Deployment
+    Most of these work the same for unix like systems and windows in the terminal
 #### Using Docker
     If you have Docker installed, this is the easiest way to run the application:
 
-- Navigate to the project directory (/etc/local):
+- Navigate to the directory in the project (/etc/local):
     cd /etc/local
 - Build and start the Docker containers:
   docker-compose up --build
@@ -18,14 +19,14 @@
 ### Manual Deployment
 #### API
 - Navigate to the project's root folder:
-    cd path_to_project_root
+    cd ./list-people
 
 - Run the API using Gradle:
   ./gradlew bootRun
 
 #### UI
 - Navigate to the web directory inside the project:
-    cd path_to_project_root/web
+    cd ./list-people/web
 
 - Install the necessary npm packages:
   npm install
