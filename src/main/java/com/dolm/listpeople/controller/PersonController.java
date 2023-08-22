@@ -22,7 +22,7 @@ public class PersonController {
     this.personService = personService;
   }
 
-  @CrossOrigin(origins = "http://localhost:4200")
+  @CrossOrigin(origins = "${allowed.origins}")
   @GetMapping("")
   public ResponseEntity<Page<PersonDTO>> getPersons(
     @RequestParam(required = false, defaultValue = "") String name,
