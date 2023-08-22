@@ -1,7 +1,6 @@
 package com.dolm.listpeople.integration;
 
-import com.dolm.listpeople.model.Person;
-import com.dolm.listpeople.repository.PersonRepository;
+import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +20,11 @@ class GetPeopleIntegrationTest {
   @Autowired
   private MockMvc mockMvc;
 
-  @Autowired
-  private PersonRepository personRepository;
-
   @Test
-  public void testGetPersons() throws Exception {
-    Person person = new Person();
-    person.setName("John");
-    personRepository.save(person);
-
-    mockMvc.perform(get("/person?name=John"))
+  @DisplayName("")
+  void getPeople_Test() throws Exception {
+    // then
+    mockMvc.perform(get("/person?name=o"))
       .andExpect(status().isOk());
   }
 }

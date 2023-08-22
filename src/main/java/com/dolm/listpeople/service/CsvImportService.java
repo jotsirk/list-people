@@ -55,7 +55,7 @@ public class CsvImportService {
         Resource[] resources = appContext.getResources("classpath:import_data/*.*");
         for (Resource resource : resources) {
           List<Person> persons = loadData(resource).stream()
-            .map(record -> new Person(record.get(0), record.get(1)))
+            .map(csvRecord -> new Person(csvRecord.get(0), csvRecord.get(1)))
             .toList();
           personsImportList.addAll(persons);
         }

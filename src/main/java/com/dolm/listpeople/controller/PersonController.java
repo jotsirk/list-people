@@ -24,7 +24,7 @@ public class PersonController {
 
   @CrossOrigin(origins = "${allowed.origins}")
   @GetMapping("")
-  public ResponseEntity<Page<PersonDTO>> getPersons(
+  public ResponseEntity<Page<PersonDTO>> getPeople(
     @RequestParam(required = false, defaultValue = "") String name,
     Pageable pageable
   ) {
