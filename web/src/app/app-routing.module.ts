@@ -1,9 +1,9 @@
 import {RouterModule, Routes} from "@angular/router";
 import {NgModule} from "@angular/core";
-import {PeopleComponent} from "./views/people/people.component";
+import {BaseLayoutComponent} from "./layout/base-layout/base-layout.component";
 
 const routes: Routes = [
-    {path: '', component: PeopleComponent},
+    {path: '', component: BaseLayoutComponent},
     {path: '**', redirectTo: ''},
 ];
 

@@ -9,11 +9,14 @@ import {MatTableModule} from "@angular/material/table";
 import {MatPaginatorModule} from "@angular/material/paginator";
 import {HttpClientModule} from "@angular/common/http";
 import {FormsModule} from "@angular/forms";
+import { BaseLayoutComponent } from './layout/base-layout/base-layout.component';
+import {MatToolbarModule} from "@angular/material/toolbar";
 
 @NgModule({
     declarations: [
         AppComponent,
-        PeopleComponent
+        PeopleComponent,
+        BaseLayoutComponent
     ],
     imports: [
         BrowserModule,
@@ -23,7 +26,8 @@ import {FormsModule} from "@angular/forms";
         MatTableModule,
         MatPaginatorModule,
         HttpClientModule,
-        FormsModule
+        FormsModule,
+        MatToolbarModule
     ],
     providers: [],
     bootstrap: [AppComponent]

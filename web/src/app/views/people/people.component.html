@@ -1,5 +1,5 @@
-<div>
-    <div class="mat-elevation-z8">
+<div class="mat-card">
+    <div class="mat-elevation-z8 table-container">
         <table mat-table [dataSource]="dataSource">
 
             <ng-container matColumnDef="name">
@@ -15,7 +15,7 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            <tr mat-row class="table-content" *matRowDef="let row; columns: displayedColumns;"></tr>
         </table>
 
         <mat-paginator
