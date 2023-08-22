@@ -5,6 +5,7 @@ import com.dolm.listpeople.repository.PersonRepository;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.util.CollectionUtils;
 import java.util.List;
 
 @Service
@@ -17,6 +18,10 @@ public class PersonService {
   }
 
   public void save(List<Person> persons) {
+    if (CollectionUtils.isEmpty(persons)) {
+      return;
+    }
+
     personRepository.saveAll(persons);
   }
 

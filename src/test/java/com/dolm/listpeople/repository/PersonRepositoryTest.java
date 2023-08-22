@@ -13,7 +13,7 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DataJpaTest
-public class PersonRepositoryTest {
+class PersonRepositoryTest {
 
   @Autowired
   private PersonRepository personRepository;
@@ -25,7 +25,7 @@ public class PersonRepositoryTest {
 
   @Test
   @DisplayName("saveAll - saves list of people - if list is not empty")
-  public void saveAllTest() {
+  void saveAllTest() {
     // given
     List<Person> people = createPeopleList();
 
@@ -39,7 +39,7 @@ public class PersonRepositoryTest {
 
   @Test
   @DisplayName("findByNameContainingIgnoreCase - returns list of - ")
-  public void findByNameContainingIgnoreCaseTest() {
+  void findByNameContainingIgnoreCaseTest() {
     // given
     personRepository.saveAll(createPeopleList());
     String filterNameValue = "jo";
@@ -48,7 +48,7 @@ public class PersonRepositoryTest {
     Page<Person> filteredPeople = personRepository.findByNameContainingIgnoreCase(filterNameValue, Pageable.ofSize(5));
 
     // then
-    assertEquals(filteredPeople.getTotalElements(), 4);
+    assertEquals(4, filteredPeople.getTotalElements());
   }
 
   private List<Person> createPeopleList() {
