@@ -1,0 +1,22 @@
+version: "3.9"
+
+services:
+  springboot-backend:
+    build:
+      context: ../../
+      dockerfile: Dockerfile
+    ports:
+      - "8080:8080"
+
+  angular-frontend:
+    build:
+      context: ../../web/
+      dockerfile: Dockerfile
+    ports:
+      - "8081:80"
+    depends_on:
+      - springboot-backend
+
+networks:
+  default:
+    name: local-list-env

@@ -48,7 +48,7 @@ public class CsvImportService {
   void ImportInitialData() {
     // TODO maybe even just use the liquibase csv importer straight into DB
     String[] activeProfiles = env.getActiveProfiles();
-    if (Arrays.asList(activeProfiles).contains("dev")) {
+    if (!Arrays.asList(activeProfiles).contains("prod")) {
       List<Person> personsImportList = new ArrayList<>(Collections.emptyList());
 
       try {
