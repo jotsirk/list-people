@@ -45,8 +45,6 @@ export class PeopleComponent implements OnInit, AfterViewInit {
     }
 
     applyFilter() {
-        // Your filter logic here
-        console.log("Filtering with:", this.nameFilterValue);
         this.loadData(this.nameFilterValue, 0, this.defaultPageSize);
     }
 

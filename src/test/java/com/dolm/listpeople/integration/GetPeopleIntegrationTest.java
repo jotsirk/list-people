@@ -21,7 +21,7 @@ class GetPeopleIntegrationTest {
   private MockMvc mockMvc;
 
   @Test
-  @DisplayName("")
+  @DisplayName("getPeople - returns 200 status - if no errors")
   void getPeople_Test() throws Exception {
     // then
     mockMvc.perform(get("/person?name=o"))

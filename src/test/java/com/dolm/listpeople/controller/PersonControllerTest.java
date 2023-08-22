@@ -30,15 +30,18 @@ class PersonControllerTest {
   private PersonService personService;
 
   @Test
-  @DisplayName("Test getPersons - Happy Path")
-  void testGetPersons() throws Exception {
+  @DisplayName("Test getPersons - returns 200 status - if service returns people")
+  void getPersons_Test() throws Exception {
+    // given
     when(personService.findAll(anyString(), any(Pageable.class)))
       .thenReturn(new PageImpl<>(new ArrayList<>()));
 
+    // when
     mockMvc.perform(MockMvcRequestBuilders.get("/person"))
       .andExpect(status().isOk())
       .andExpect(MockMvcResultMatchers.jsonPath("$.content").exists());
 
+    // then
     verify(personService, times(1)).findAll(anyString(), any(Pageable.class));
   }
 }

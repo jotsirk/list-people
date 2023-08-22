@@ -32,7 +32,7 @@ class PersonServiceTest {
 
   @Test
   @DisplayName("findAll - delegates to repository and return one page element - if no exceptions")
-  void findAllTest() {
+  void findAll_Test() {
     // given
     String filterNameValue = "Jo";
     Pageable pageable = PageRequest.of(0, 5);
@@ -49,7 +49,7 @@ class PersonServiceTest {
 
   @Test
   @DisplayName("save - delegates to repository and saves list of people - if no exceptions")
-  void saveTest() {
+  void save_Test() {
     // given
     Person saveablePerson = new Person("John Name", "photo.jpg");
 
@@ -62,7 +62,7 @@ class PersonServiceTest {
 
   @Test
   @DisplayName("save - returns - if empty list")
-  void saveEmptyListTest() {
+  void saveEmptyList_Test() {
     // when
     personService.save(Collections.emptyList());
 
@@ -72,7 +72,7 @@ class PersonServiceTest {
 
   @Test
   @DisplayName("save - returns - if trying to save null")
-  void saveNullTest() {
+  void saveNull_Test() {
     // when
     personService.save(null);
 

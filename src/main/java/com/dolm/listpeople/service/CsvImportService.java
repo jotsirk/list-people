@@ -20,11 +20,15 @@ import java.util.Collections;
 import java.util.List;
 
 import static ch.qos.logback.core.CoreConstants.DOUBLE_QUOTE_CHAR;
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 @Service
 public class CsvImportService {
 
   private static final Character COMMA_DELIMITER = ',';
+  private static final String IMPORT_ERROR_MSG = "Error loading CSV data";
+  private static final String IMPORT_SUCCESS_MSG = "Successfully imported %s lines";
+
   private static final CSVFormat CSV_FORMAT = CSVFormat.Builder.create()
     .setDelimiter(COMMA_DELIMITER)
     .setQuote(DOUBLE_QUOTE_CHAR)
@@ -55,23 +59,25 @@ public class CsvImportService {
         Resource[] resources = appContext.getResources("classpath:import_data/*.*");
         for (Resource resource : resources) {
           List<Person> persons = loadData(resource).stream()
+            // First is header and the format for some reason fails to skip this
+            .skip(1)
             .map(csvRecord -> new Person(csvRecord.get(0), csvRecord.get(1)))
             .toList();
           personsImportList.addAll(persons);
         }
       } catch (IOException e) {
-        log.error("Error loading CSV data", e);
+        log.error(IMPORT_ERROR_MSG, e);
       }
 
       personService.save(personsImportList);
-      log.info("Successfully imported $nr lines");
+      log.info(IMPORT_SUCCESS_MSG);
     }
   }
 
   private List<CSVRecord> loadData(Resource resource) throws IOException {
     try (
       InputStream inputStream = resource.getInputStream();
-      InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+      InputStreamReader inputStreamReader = new InputStreamReader(inputStream, UTF_8);
       CSVParser csvParser = new CSVParser(inputStreamReader, CSV_FORMAT)
     ) {
       return csvParser.getRecords();

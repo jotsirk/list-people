@@ -25,7 +25,7 @@ class PersonRepositoryTest {
 
   @Test
   @DisplayName("saveAll - saves list of people - if list is not empty")
-  void saveAllTest() {
+  void saveAll_Test() {
     // given
     List<Person> people = createPeopleList();
 
@@ -39,7 +39,7 @@ class PersonRepositoryTest {
 
   @Test
   @DisplayName("findByNameContainingIgnoreCase - returns list of - ")
-  void findByNameContainingIgnoreCaseTest() {
+  void findByNameContainingIgnoreCase_Test() {
     // given
     personRepository.saveAll(createPeopleList());
     String filterNameValue = "jo";
