@@ -1,17 +1,8 @@
-.mat-card {
-  height: 92vh;
+.table-wrapper {
   display: flex;
   flex-direction: column;
 }
 
-.mat-elevation-z8 {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
+.person-img {
+  height: 120px;
 }
-
-table {
-  flex: 1;
-  height: 92vh;
-}
-

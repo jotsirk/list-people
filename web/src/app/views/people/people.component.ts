@@ -3,6 +3,7 @@ import {PersonService} from "../../services/person.service";
 import {MatTableDataSource} from "@angular/material/table";
 import {MatPaginator} from "@angular/material/paginator";
 import {debounceTime, first, Subject, tap} from "rxjs";
+import {DomSanitizer} from "@angular/platform-browser";
 
 @Component({
     selector: 'people-list',
@@ -23,7 +24,8 @@ export class PeopleComponent implements OnInit, AfterViewInit {
     private keyUp = new Subject<string>();
     private debounceTime = 500;
 
-    constructor(private personService: PersonService) {
+    constructor(private personService: PersonService,
+                private domSanitizer: DomSanitizer) {
         this.dataSource = new MatTableDataSource<any>([]);
         this.keyUp.pipe(
             debounceTime(this.debounceTime)
@@ -56,7 +58,11 @@ export class PeopleComponent implements OnInit, AfterViewInit {
         this.keyUp.next(this.nameFilterValue);
     }
 
-    private loadData(nameFilter: string, page: number, size: number) {
+    getSafeUrl(url: string) {
+        return this.domSanitizer.bypassSecurityTrustResourceUrl(url);
+    }
+
+    loadData(nameFilter: string, page: number, size: number) {
         this.personService.getPeople(nameFilter, page, size)
             .pipe(first())
             .subscribe((data) => {
