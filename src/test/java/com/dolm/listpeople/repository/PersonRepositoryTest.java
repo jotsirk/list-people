@@ -38,8 +38,8 @@ class PersonRepositoryTest {
   }
 
   @Test
-  @DisplayName("findByNameContainingIgnoreCase - returns list of - ")
-  void findByNameContainingIgnoreCase_Test() {
+  @DisplayName("findByNameContainingIgnoreCase - returns list of filtered people - if no exceptions and filter is jo")
+  void findByNameContainingIgnoreCase_filterPeople_Test() {
     // given
     personRepository.saveAll(createPeopleList());
     String filterNameValue = "jo";
@@ -49,6 +49,20 @@ class PersonRepositoryTest {
 
     // then
     assertEquals(4, filteredPeople.getTotalElements());
+  }
+
+  @Test
+  @DisplayName("findByNameContainingIgnoreCase - returns empty list - if no exceptions and filtered value is not in db")
+  void findByNameContainingIgnoreCase_filterByMissingName_Test() {
+    // given
+    personRepository.saveAll(createPeopleList());
+    String filterNameValue = "joosep";
+
+    // when
+    Page<Person> filteredPeople = personRepository.findByNameContainingIgnoreCase(filterNameValue, Pageable.ofSize(5));
+
+    // then
+    assertEquals(0, filteredPeople.getTotalElements());
   }
 
   private List<Person> createPeopleList() {

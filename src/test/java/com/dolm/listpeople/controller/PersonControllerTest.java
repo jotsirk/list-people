@@ -30,7 +30,7 @@ class PersonControllerTest {
   private PersonService personService;
 
   @Test
-  @DisplayName("Test getPersons - returns 200 status - if service returns people")
+  @DisplayName("getPersons - returns 200 status - if service returns valid page")
   void getPersons_Test() throws Exception {
     // given
     when(personService.findAll(anyString(), any(Pageable.class)))
@@ -43,5 +43,27 @@ class PersonControllerTest {
 
     // then
     verify(personService, times(1)).findAll(anyString(), any(Pageable.class));
+  }
+
+  @Test
+  @DisplayName("getPersons - returns 405 status - if method is not allowed for post request")
+  void postPerson_methodNotAllowed_Test() throws Exception {
+    // when
+    mockMvc.perform(MockMvcRequestBuilders.post("/person"))
+      .andExpect(status().isMethodNotAllowed());
+
+    // then
+    verify(personService, times(0)).findAll(anyString(), any(Pageable.class));
+  }
+
+  @Test
+  @DisplayName("getPersons - returns 404 status - if endpoint doesn't exist")
+  void getNonExistentEndpoint_notFound_Test() throws Exception {
+    // when
+    mockMvc.perform(MockMvcRequestBuilders.get("/person/non-existent"))
+      .andExpect(status().isNotFound());
+
+    // then
+    verify(personService, times(0)).findAll(anyString(), any(Pageable.class));
   }
 }
