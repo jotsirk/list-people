@@ -15,6 +15,8 @@
     cd /etc/local
 - Build and start the Docker containers:
   docker-compose up --build
+- If you would like to run it in detached mode then:
+  docker-compose up -d --build
 
 ### Manual Deployment
 #### API
@@ -42,3 +44,7 @@
   
 ### UI
     Framework: Angular.
+
+## Usage
+    If at first the filter is not found, then it is in the name column under the name value.
+    Click on the filter field and start typing away.

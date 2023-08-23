@@ -69,7 +69,7 @@ public class CsvImportService {
       }
 
       personService.save(personsImportList);
-      log.info(IMPORT_SUCCESS_MSG);
+      log.info(String.format(IMPORT_SUCCESS_MSG, personsImportList.size()));
     }
   }
 
