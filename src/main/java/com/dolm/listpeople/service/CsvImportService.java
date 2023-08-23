@@ -34,7 +34,6 @@ public class CsvImportService {
     .setQuote(DOUBLE_QUOTE_CHAR)
     .setIgnoreEmptyLines(true)
     .setAllowDuplicateHeaderNames(true)
-    .setSkipHeaderRecord(true)
     .build();
   private static final Logger log = LoggerFactory.getLogger(CsvImportService.class);
 
@@ -52,7 +51,7 @@ public class CsvImportService {
   public void importInitialData() {
     // TODO maybe even just use the liquibase csv importer straight into DB
     String[] activeProfiles = env.getActiveProfiles();
-    if (!Arrays.asList(activeProfiles).contains("prod")) {
+    if (!Arrays.asList(activeProfiles).contains("prod") && !Arrays.asList(activeProfiles).contains("test")) {
       List<Person> personsImportList = new ArrayList<>(Collections.emptyList());
 
       try {
